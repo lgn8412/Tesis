@@ -1,0 +1,169 @@
+#define MOVE_TIME 800
+#define TURN_TIME 200
+#define SWEEP_TIME_FWD 1500
+#define SWEEP_TIME_TURN 100
+#define CIRCLE_TIME 20000
+#define SERPENT_TIME 5000
+
+dseg segment
+SquareCount byte 4
+SerpentCount byte 4
+SweepCount byte 16
+dseg ends
+
+thread main
+
+endt
+     
+subroutine Square_Wise
+     
+	SquareLoop:
+		OnFwd(OUT_BC,100)
+		wait MOVE_TIME
+		OnRev(OUT_B,100)
+		wait TURN_TIME
+		sub SquareCount, SquareCount, 1
+		brtst GT, SquareLoop, SquareCount
+		return
+ends
+
+subroutine Clock_Wise
+     
+	OnFwd(OUT_C,100)
+        OnFwd(OUT_B,75)
+        wait CIRCLE_TIME
+        return
+ends
+     
+subroutine Serpent_Wise
+
+	SerpentLoop:
+        	OnFwd(OUT_C,100)
+                OnFwd(OUT_B,50)
+                wait SERPENT_TIME
+                OnFwd(OUT_C,50)
+                OnFwd(OUT_B,100)
+                wait SERPENT_TIME
+                sub SerpentCount, SerpentCount, 1
+                brtst GT, SerpentLoop, SerpentCount
+                return
+ends
+     
+subroutine Sweep
+     
+	SweepLoop:
+        	OnFwd(OUT_BC,100)
+                wait SWEEP_TIME_FWD
+                OnRev(OUT_B, 100)
+                wait TURN_TIME
+                OnFwd(OUT_BC,100)
+                wait SWEEP_TIME_TURN
+                OnRev(OUT_B,100)
+                wait TURN_TIME
+                sub SweepCount, SweepCount, 1
+                brtst GT, SweepLoop, SweepCount
+                return
+               
+ends
+     
+subroutine HelloWorld
+	
+	TextOut(0, LCD_LINE1, 'Hola, como te va?')	     			
+	wait 1000
+	TextOut(0, LCD_LINE2, 'esta es una prueba')
+	wait 1000
+	TextOut(0, LCD_LINE3, 'del lenguaje nbc')
+	
+ends
+
+subroutine Show_Date
+	
+	TextOut(0,LCD_LINE1, 'Mostrar la fecha')
+
+ends 
+
+/*
+Este es un ejemplo de cada una de las cosas que se va a interpretar
+solo se hace para tener una referencia
+
+declaracion de variables:
+
+dseg segment
+
+toda la declaracion de variables
+
+dseg ends
+
+asignaciones:
+
+set a, 10 (el segundo parametro solo acepta constantes)
+mov a, c  (en este caso el segundo parametro acepta constantes y variables)
+
+condicionales:
+
+if
+
+	brtst EQ, Then, variable
+Else:
+	codigo
+	jmp EndIf
+Then:
+	codigo
+EndIf
+	codigo
+
+
+ciclos:
+
+do while
+
+Ciclo: 
+	todo nuestro codigo
+	brtst comparacion, Ciclo, variable
+
+for
+
+Ciclo: 
+	todo nuestro codigo
+	sub o sum variable, variable, 1 (segun como convenga el for)
+	brtst comparacion, Ciclo, variable
+
+while
+
+Ciclo:
+	brtst comparacion, Ciclo, variable
+	todo nuestro codigo
+	jmp Ciclo
+
+Funciones :
+	
+subroutine nombre_funcion
+	codigo
+ends
+
+El manejo de sensores y eventos esta en la seccion siguiente
+
+*/
+
+/*
+Ejemplo de manejo de sensores y eventos
+
+dseg segment
+Switch sword 0
+dseg ends
+
+thread main
+SetSensorTouch(IN_1)
+OnFwd(OUT_BC,100)
+
+	CheckSensor:
+		ReadSensor(IN_1,Switch)
+		brtst EQ, CheckSensor, Switch
+		OnRev(OUT_BC,100)
+		wait 300
+		OnFwd(OUT_B,100)
+		wait 300
+		OnFwd(OUT_BC,100)
+		jmp CheckSensor
+endt 
+*/
