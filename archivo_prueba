@@ -1,0 +1,11 @@
+a= 'hola '   + 3.2 
+print(1==2)
+b=1+2.2
+print(a)
+print(b)
+print(2+2/4)
+print(2+(-2/4))
+print(a)
+print abs(-2)
+print sqrt(3)
+
