@@ -22,7 +22,7 @@
 		| while_statement
 		| if_statement
 		| instruction
-	#el newline es opcional, pero si existe, debe haber identacion
+	#el newline es opcional, pero si existe, debe haber identación
 	#revisar que dentro de statement haya identacion correspondiente
 
    for_statement:	/for/ VARIABLE /in/ LIST ':' '\n' '\t' statement     
